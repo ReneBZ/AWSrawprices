@@ -77,7 +77,10 @@ def printvector(slabel, svalue) :
     #print(lvector[1:], slabel, svalue)
 
 def printinstance() :
-    if lvector[ksize] != "" and "ap" not in lvector[kregion] and not (lvector[kondemand]+lvector[kyrTerm1]+lvector[kyrTerm1Hourly]+lvector[kyrTerm1]+lvector[kyrTerm1Hourly]==""):
+    # ignore Asia Pacific regions "ap" (I don't use those regions but if you do, remove this filter)
+    # also ignore when there is no instance size or no prices
+    if lvector[ksize] != "" and "ap" not in lvector[kregion] and not (lvector[kondemand]+lvector[kyrTerm1]+ \
+                                        lvector[kyrTerm1Hourly]+lvector[kyrTerm1]+lvector[kyrTerm1Hourly]==""):
         for i in range(len(lvector)):
              print('"%s"' % (lvector[i]),end=', ')
         print(" ")
