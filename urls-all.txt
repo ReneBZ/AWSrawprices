@@ -2,7 +2,7 @@ http://a0.awsstatic.com/pricing/1.0.19/ec2/linux-od.min.js
 http://a0.awsstatic.com/pricing/1.0.19/ec2/rhel-od.min.js
 http://a0.awsstatic.com/pricing/1.0.19/ec2/sles-od.min.js
 http://a0.awsstatic.com/pricing/1.0.19/ec2/mswin-od.min.js
-http://a0.awsstatic.com/pricing/1.0.19/ec2/mswinSQL-od.min.js
+http://a0.awsstatic.com/pricing/1.1.19/ec2/mswinSQL-od.min.js
 http://a0.awsstatic.com/pricing/1.0.19/ec2/mswinSQLWeb-od.min.js
 http://a0.awsstatic.com/pricing/1/ec2/linux-ri-light.min.js
 http://a0.awsstatic.com/pricing/1/ec2/rhel-ri-light.min.js
