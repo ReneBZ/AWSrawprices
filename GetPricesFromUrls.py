@@ -6,22 +6,16 @@ import os, json, csv, string, re, urllib.request
 def sweep_aws(dictolist, leveldeep, llave, ec2ords):
     global vpos
     s_type = str(type(dictolist))
-    #if leveldeep<3:
-    #print("    "*leveldeep+"Nivel %s: sweep_aws %s que es %s y tiene %s elementos" % (leveldeep, llave , s_type, len(dictolist)))
-    #, str(dictolist)[0:100]))
+
     if ('str' in s_type):
         #print("    "*leveldeep+"str", llave, ":", dictolist)
         leveldeep=0
+
     elif 'list'in s_type:
-        #for index in range(len(dictolist)):
-        #    print("  "+"    "*leveldeep+"list[%s]> %s" % (index,str(dictolist[index])[0:50]))
         for index in range(len(dictolist)):
                 sweep_aws(dictolist[index], leveldeep+1, "list[%s]" % index, ec2ords)
+
     elif ('dict' in s_type):
-        #for key in dictolist.keys():
-        #    print("  "+"    "*leveldeep+"dict(%s)> %s" % (it,key))
-        #    it=it+1
-        #print("    "*leveldeep, str(dictolist.keys()))
         if 'regions' in dictolist.keys():
             sweep_aws(dictolist['regions'],leveldeep+1,'regions <forced>', ec2ords)
         elif 'region' in dictolist.keys():
@@ -66,8 +60,7 @@ def sweep_aws(dictolist, leveldeep, llave, ec2ords):
         elif 'USD' in dictolist.keys():
             lvector[vpos]=dictolist['USD']
             printvector("USD: ",dictolist['USD'])
-            #print(nvector)
-            #print(lvector)
+
         else:
             for key in dictolist.keys():
                 sweep_aws(dictolist[key], leveldeep+1, key, ec2ords)
@@ -84,11 +77,6 @@ def printinstance() :
         for i in range(len(lvector)):
              print('"%s"' % (lvector[i]),end=', ')
         print(" ")
-        # for i in range(0,8):
-        #      print('"%s"' % (lvector[i]),end=', ')
-        # for i in range(8,13):
-        #      print("%s" % (lvector[i]),end=', ')
-        # print(" ")
 
         lvector[kondemand]=""
         lvector[kyrTerm1]=""
@@ -200,7 +188,6 @@ def prepareforjson(vjsstr):        #prepare keys for json
     vjsstr = vjsstr.replace('us-east-1','us-east')
     vjsstr = vjsstr.replace('us-east','us-east-1')
 
-    #print(vjsstr)
     return(vjsstr)
 
 
@@ -234,35 +221,24 @@ with open('urls-all.txt')as f:
         vpos=kondemand
 
         extractfromfilename(stf)
+
         #print("FILE >>> %s" % stf)
         response = urllib.request.urlopen(stf)
         sth = response.read()
         response.close()
         s_all=str(sth)
-        #print(s_all)
+
         #remove the initial text and last ) bracket
         leftbaspos=s_all.find("callback(")
         vjsstr=s_all[leftbaspos+9:-3]
+
         #print(vjsstr)
         vjsstr = prepareforjson(vjsstr)
+
         #convert json to dict
         vdict=json.loads(vjsstr)
         vx=(vdict)
-        #print(type(vx))
-        #print(len(vx))
-        #print(vx)
+
         leveldeep=0
-        '''
-        regions
-        region (us-east-1...)
-        instanceTypes
-        	type (computeCurrentGen)
-        	sizes
-        		size (m1.small, m1.medium,...)
-        		valueColumns
-        			name (linux, sles, yrTerm1, yrTerm1Hourly, yrTerm3, yrterm3Hourly) 
-        			prices
-        				USD (costo)
-        '''
         sweep_aws(vx, leveldeep, 'vx','rds')
 
